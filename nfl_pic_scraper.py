@@ -25,12 +25,19 @@ def scrape_player_img(player_url, file_location):
 
 	#get the image location
 	img_location = re.search(r"https://d395i9ljze9h3x.cloudfront.net/.+?.jpg", html_response)
-	
 
 	#if the player has an image on their page 
 	if img_location != None:
 		img_location = img_location.group(0)
 		urllib.request.urlretrieve(img_location, file_location)
+
+		#initialize attractiveness variable to be changed by scraping function
+		global player_attractiveness
+
+		#get player attractivness
+		player_attractiveness = attractiveness_rater.get_attractiveness(file_location)
+
+	
 
 
 def get_player_team(player_url):
@@ -66,6 +73,7 @@ def scrape_index(last_initial):
 		player_last_name varchar(100) NOT NULL,
 		player_position char(10),
 		player_team char(100),
+		player_attractiveness real,
 		img_path text)''')
 
 	for player in active_players:
@@ -89,16 +97,25 @@ def scrape_index(last_initial):
 		#get the player's team from their profile
 		player_team = get_player_team(player_url)
 
+
+
 		#generate a location for the player's image
 		file_location = get_file_location(player_first_name, player_last_name, player_position)
+
+
+		
 
 		#scrape the player's headshot from their profile
 		scrape_player_img(player_url,file_location)
 
+
 		#insert information into table
 		db.execute("""INSERT INTO 
-			players (player_first_name,player_last_name,player_position,player_team,img_path) 
-			VALUES (?,?,?,?,?)""", (player_first_name,player_last_name,player_position,player_team,file_location))
+			players (player_first_name,player_last_name,player_position,player_team,player_attractiveness,img_path) 
+			VALUES (?,?,?,?,?,?)""", (player_first_name,player_last_name,player_position,player_team,player_attractiveness,file_location))
+
+		
+
 
 
 

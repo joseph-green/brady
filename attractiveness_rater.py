@@ -1,21 +1,26 @@
 import requests
+import json
+import base64
+import os
 
-#get_attractiveness returns the attractiveness of the person contained 
-#in the headshot using the Haystack.ai API
-#requires: there is only one person in the image
-def get_attractiveness(image):
+
+def get_attractiveness(image_loc):
+
+	img = open(image_loc, 'rb')
+
+	b64_img = base64.b64encode(img.read())
 
 	req_params = {
-	"apiKey": "422c39c1be25908f5fbe3861d983f9a6",
+	"apiKey": os.environ["API_KEY"],
 	"model": "attractiveness",
-	"image": open(image, 'rb'),
+	"image": b64_img,
 	"output": "json"
 	}
 
-	response = requests.post("https://api.haystack.ai/api/image/analyze", params = req_params)
+	response = requests.post("https://api.haystack.ai/api/image/analyze", params = req_params).json()
 
 	attractiveness_score = response["people"][0]["attractiveness"]
-
+	
 	return attractiveness_score
 
 

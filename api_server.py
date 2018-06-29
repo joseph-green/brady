@@ -16,6 +16,6 @@ def get_player_by_id(player_id):
     response = json.dumps(player)
 
     #close the database
-	db_conn.close()
+    db_conn.close()
 	
     return response
