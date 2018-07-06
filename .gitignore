@@ -1,2 +1,5 @@
 assets
 __pycache__
+*.gitignore
+instance
+deploy.ps1
