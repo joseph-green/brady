@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import sqlite3
 import json
 import os
@@ -48,8 +48,13 @@ def create_app(test_config=None):
         player = db.get_player_by_name(player_last_name,player_first_name)
 
         response = json.dumps(player)
-        
+
         return response
+
+    @app.route('/', methods=['GET'])
+    def index():
+        
+        return render_template('index.html')
 
 
     return app
