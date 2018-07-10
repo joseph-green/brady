@@ -25,7 +25,8 @@ def get_player_by_id(player_id):
     db_close(db)
 
     if player:
-    	return parse_json(player,keys)
+        response_hash = parse_player(player,keys)
+        return json.dumps(response_hash)
     else:
     	return "No results were found"
 
@@ -41,6 +42,8 @@ def get_player_by_name(last_name,first_name=None):
 
     players = db.fetchall()
 
+    keys = [des[0] for des in db.description]
+
     db_close(db)
 
     #if no players are found, return an error
@@ -48,24 +51,25 @@ def get_player_by_name(last_name,first_name=None):
         return "No results were found"
     #if a single player is found, return that player
     elif len(players) == 1:
-        return parse_json(players[0])
+        response_hash = parse_player(players[0],keys)
+        return json.dumps(response_hash)
     else:
-        for player in players:
-        	player = parse_json(player)
+        
+        players_reponse_hash = [parse_player(player,keys) for player in players]
 
-        return players
+        return json.dumps(players_reponse_hash)
     
 
     
 
 
 
-def parse_json(response,columns):
+def parse_player(response,columns):
 
-	response_hash = {}
+    response_hash = {}
 
-	for i in range(0,len(response)):
-		response_hash[columns[i]] = response[i]
+    for i in range(0,len(response)):
+        response_hash[columns[i]] = response[i]
 
-	return json.dumps(response_hash)
+    return response_hash
 

@@ -28,10 +28,15 @@
 		
 		<h2>Endpoints</h2>
 
-		<div>
+		<div class='endpoint'>
+
 			<h3>Player by ID</h3>
 
 			<p>Get a player by their player ID</p>
+
+			<p>ENDPOINT</p>
+
+			<p><span id='req-type'>GET</span> [url]/players/228</p>
 
 			<p>SAMPLE REQUEST</p>
 
@@ -39,10 +44,31 @@
 
 			<p>SAMPLE RESPONSE</p>
 
-			<p>{</p>
+			<p>{"player_id": 228, "player_first_name": "Tom", "player_last_name": "Brady", "player_position": "QB", "player_team": "New England Patriots", "player_attractiveness": null, "img_path": "../assets/player_headshots/QB_Tom_Brady.jpg"}</p>
+
 		</div>
 
-		<
+		<div class='endpoint'>
+			
+			<h3>Player Search by last name</h3>
+
+			<p>Search for a player by their last name</p>
+
+			<p>ENDPOINT</p>
+
+			<p><span id='req-type'>GET</span> [url]/players/search/<span>[last name]</span></p>
+
+			<p>SAMPLE REQUEST</p>
+
+			<p><span id='req-type'>GET</span> [url]/players/search/brady</p>
+
+			<p>SAMPLE RESPONSE</p>
+
+			<p>{"player_id": 228, "player_first_name": "Tom", "player_last_name": "Brady", "player_position": "QB", "player_team": "New England Patriots", "player_attractiveness": null, "img_path": "../assets/player_headshots/QB_Tom_Brady.jpg"}</p>
+
+		</div>
+
+		
 	</div>
 </body>
 </html>

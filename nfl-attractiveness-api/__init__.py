@@ -28,28 +28,22 @@ def create_app(test_config=None):
     def get_player_by_id(player_id):
 
         player = db.get_player_by_id(player_id)
-
-        response = json.dumps(player)
         
-        return response
+        return player
 
     @app.route('/players/search/<string:player_last_name>', methods=['GET'])
     def get_player_by_last_name(player_last_name):
 
-        player = db.get_player_by_name(player_last_name)
-
-        response = json.dumps(player)
+        players = db.get_player_by_name(player_last_name.capitalize())
         
-        return response
+        return players
 
     @app.route('/players/search/<string:player_last_name>/<string:player_first_name>', methods=['GET'])
     def get_player_by_full_name(player_last_name,player_first_name):
 
-        player = db.get_player_by_name(player_last_name,player_first_name)
+        players = db.get_player_by_name(player_last_name,player_first_name.capitalize())
 
-        response = json.dumps(player)
-
-        return response
+        return players
 
     @app.route('/', methods=['GET'])
     def index():
