@@ -49,10 +49,6 @@ def get_player_by_name(last_name,first_name=None):
     #if no players are found, return an error
     if len(players) == 0:
         return "No results were found"
-    #if a single player is found, return that player
-    elif len(players) == 1:
-        response_hash = parse_player(players[0],keys)
-        return json.dumps(response_hash)
     else:
         
         players_reponse_hash = [parse_player(player,keys) for player in players]
