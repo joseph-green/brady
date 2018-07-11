@@ -121,7 +121,7 @@ def scrape_index(last_initial):
 
 
 #initialize the database connection and set the cursor
-db_conn = sqlite3.connect('../nfl-attractiveness-api/nfl.db')
+db_conn = sqlite3.connect('../brady/nfl.db')
 db = db_conn.cursor()
 
 #perform an index scrape on all last initials
