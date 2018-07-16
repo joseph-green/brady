@@ -7,8 +7,10 @@ body {
 	text-align: center;
 }
 
-.header h1 img {
-	width: 40%;
+.header h1 {
+	font-size: 5em;
+	font-family: "Alegreya";
+	font-weight: bold;
 }
 
 .header ul {
@@ -30,6 +32,10 @@ body {
 	color: #000;
 }
 
+.section {
+	margin: 4em 0;
+}
+
 .code-snip {
 	font-family: consolas;
 	margin-left: 1em;
@@ -40,10 +46,15 @@ body {
 	display: inline-block;
 }
 
+.code-snip .highlight {
+	color: #DC143C;
+}
+
+
 .code-snip #req-type {
 	font-weight: bold;
 }
 
 .endpoint {
-	margin: 1em 0;
+	margin: 3em 0;
 }
