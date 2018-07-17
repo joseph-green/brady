@@ -16,7 +16,7 @@ def get_player_by_id(player_id):
 
     db = db_connect()
 
-    db.execute("""SELECT player_id, player_first_name, player_last_name, player_position, player_team FROM players WHERE player_id=?""", (player_id,))
+    db.execute("""SELECT player_id, player_first_name, player_last_name, player_position, player_team, player_attractiveness FROM players WHERE player_id=?""", (player_id,))
 
     player = db.fetchone()
 
@@ -36,9 +36,9 @@ def get_player_by_name(last_name,first_name=None):
     
     #if a first name is given, search using first and last names, otherwise just by last name
     if first_name:
-        db.execute("""SELECT player_id, player_first_name, player_last_name, player_position, player_team FROM players WHERE player_first_name=? AND player_last_name=?""", (first_name,last_name))
+        db.execute("""SELECT player_id, player_first_name, player_last_name, player_position, player_team, player_attractiveness FROM players WHERE player_first_name=? AND player_last_name=?""", (first_name,last_name))
     else:
-        db.execute("""SELECT player_id, player_first_name, player_last_name, player_position, player_team FROM players WHERE player_last_name=?""", (last_name,))
+        db.execute("""SELECT player_id, player_first_name, player_last_name, player_position, player_team, player_attractiveness FROM players WHERE player_last_name=?""", (last_name,))
 
     players = db.fetchall()
 
