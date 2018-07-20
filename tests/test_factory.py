@@ -1,6 +1,8 @@
 from brady import create_app
 
 def test_config():
+
+	#check if passing testing config works
 	assert not create_app().testing 
 	assert create_app({"TESTING": True}).testing
 

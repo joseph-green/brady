@@ -3,6 +3,7 @@ from flask_caching import Cache
 import sqlite3
 import json
 import os
+from . import error
 from . import db
 
 
@@ -35,8 +36,13 @@ def create_app(test_config=None):
     @cache.memoize(timeout=50)
     def get_player_by_id(player_id):
 
-        player = db.get_player_by_id(player_id)
         
+
+        try:
+            player = db.get_player_by_id(player_id)
+        except error.Exception as e:
+            return Response(e.message, status=e.status_code)
+
         return Response(player,content_type='application/json')
 
 
@@ -44,8 +50,13 @@ def create_app(test_config=None):
     @cache.memoize(timeout=50)
     def get_player_by_last_name(player_last_name):
 
-        players = db.get_player_by_name(player_last_name.capitalize())
         
+        
+        try:
+            players = db.get_player_by_name(player_last_name.capitalize())
+        except error.Exception as e:
+            return Response(e.message, status=e.status_code)
+
         return Response(players,content_type='application/json')
 
 
@@ -53,7 +64,12 @@ def create_app(test_config=None):
     @cache.memoize(timeout=50)
     def get_player_by_full_name(player_last_name,player_first_name):
 
-        players = db.get_player_by_name(player_last_name.capitalize(),player_first_name.capitalize())
+        
+
+        try:
+            players = db.get_player_by_name(player_last_name.capitalize(),player_first_name.capitalize())  
+        except Exception as e:
+            return Response(e.message, status=e.status_code)
 
         return Response(players,content_type='application/json')
 

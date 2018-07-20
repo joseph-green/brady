@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from brady.error import Exception
 
 
 
@@ -34,7 +35,7 @@ def get_player_by_id(player_id):
         response_hash = parse_player(player,keys)
         return json.dumps(response_hash)
     else:
-    	return "No results were found"
+    	raise Exception(404,"No results were found")
 
 
 
@@ -56,7 +57,7 @@ def get_player_by_name(last_name,first_name=None):
 
     #if no players are found, return an error
     if len(players) == 0:
-        return "No results were found"
+        raise Exception(404,"No results were found")
     else:
         
         players_reponse_hash = [parse_player(player,keys) for player in players]

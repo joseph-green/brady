@@ -24,3 +24,9 @@ def test_player_search_by_full_name(client):
 
 	assert response.data == bytes('[{"player_id": 851, "player_first_name": "Rob", "player_last_name": "Gronkowski", "player_position": "TE", "player_team": "New England Patriots", "player_attractiveness": 6.4279}]','utf-8')
 
+def test_not_found(client):
+	response = client.get("players/2280000")
+
+	assert response.status_code == 404
+	assert response.data == bytes("No results were found","utf-8")
+
