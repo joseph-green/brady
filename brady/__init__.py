@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from flask.ext.cache import Cache
+from flask import Flask, render_template, Response
+from flask_caching import Cache
 import sqlite3
 import json
 import os
@@ -11,10 +11,11 @@ def create_app(test_config=None):
     #initialize app
     app = Flask(__name__, instance_relative_config=True)
 
+    #set default config
     app.config.from_mapping(
-        SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path,"nfl.db"),
-        HAYSTACK_KEY=os.environ["API_KEY"])
+        HAYSTACK_KEY=os.environ["API_KEY"],
+        TESTING=False)
 
     #initialize cache
     cache = Cache(app, {"CACHE_TYPE": "simple"})
@@ -36,7 +37,7 @@ def create_app(test_config=None):
 
         player = db.get_player_by_id(player_id)
         
-        return player
+        return Response(player,content_type='application/json')
 
 
     @app.route('/players/search/<string:player_last_name>', methods=['GET'])
@@ -45,7 +46,7 @@ def create_app(test_config=None):
 
         players = db.get_player_by_name(player_last_name.capitalize())
         
-        return players
+        return Response(players,content_type='application/json')
 
 
     @app.route('/players/search/<string:player_last_name>/<string:player_first_name>', methods=['GET'])
@@ -54,7 +55,7 @@ def create_app(test_config=None):
 
         players = db.get_player_by_name(player_last_name.capitalize(),player_first_name.capitalize())
 
-        return players
+        return Response(players,content_type='application/json')
 
 
     @app.route('/', methods=['GET'])

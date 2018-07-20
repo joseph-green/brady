@@ -1,16 +1,22 @@
 import sqlite3
 import json
 
+
+
 def db_connect():
     db_conn = sqlite3.connect('./nfl.db')
     db = db_conn.cursor()
 
     return db
 
+
+
 def db_close(db_conn):
     
     #close the database
     db_conn.close()
+
+
 
 def get_player_by_id(player_id):
 
@@ -29,6 +35,8 @@ def get_player_by_id(player_id):
         return json.dumps(response_hash)
     else:
     	return "No results were found"
+
+
 
 def get_player_by_name(last_name,first_name=None):
 
