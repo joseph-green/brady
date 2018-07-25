@@ -9,8 +9,12 @@ from . import db
 
 def create_app(test_config=None):
 
+
+
     #initialize app
     app = Flask(__name__, instance_relative_config=True)
+
+
 
     #set default config
     app.config.from_mapping(
@@ -18,9 +22,14 @@ def create_app(test_config=None):
         HAYSTACK_KEY=os.environ["API_KEY"],
         TESTING=False)
 
+
+
     #initialize cache
     cache = Cache(app, {"CACHE_TYPE": "simple"})
 
+
+
+    #set config
     if test_config is None:
         app.config.from_pyfile('config.py',silent=True)
     else:
@@ -32,11 +41,22 @@ def create_app(test_config=None):
         pass
 
 
+
+
+    #display docs page at index
+    @app.route('/', methods=['GET'])
+    @cache.cached(timeout=50)
+    def index():
+        
+        return render_template('index.html')
+
+
+
+
+    #get players by their unique player ID
     @app.route('/players/<int:player_id>', methods=['GET'])
     @cache.memoize(timeout=50)
-    def get_player_by_id(player_id):
-
-        
+    def get_player_by_id(player_id):   
 
         try:
             player = db.get_player_by_id(player_id)
@@ -46,6 +66,10 @@ def create_app(test_config=None):
         return Response(player,content_type='application/json')
 
 
+
+
+
+    #search for players by last name only
     @app.route('/players/search/<string:player_last_name>', methods=['GET'])
     @cache.memoize(timeout=50)
     def get_player_by_last_name(player_last_name):
@@ -60,6 +84,10 @@ def create_app(test_config=None):
         return Response(players,content_type='application/json')
 
 
+
+
+
+    #search for players by first and last name
     @app.route('/players/search/<string:player_last_name>/<string:player_first_name>', methods=['GET'])
     @cache.memoize(timeout=50)
     def get_player_by_full_name(player_last_name,player_first_name):
@@ -73,12 +101,6 @@ def create_app(test_config=None):
 
         return Response(players,content_type='application/json')
 
-
-    @app.route('/', methods=['GET'])
-    @cache.cached(timeout=50)
-    def index():
-        
-        return render_template('index.html')
 
 
     return app
